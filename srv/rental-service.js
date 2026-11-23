@@ -4,14 +4,7 @@ module.exports = cds.service.impl(function () {
   const { Cars, Rentals } = this.entities;
 
   // 1. Antes de criar um aluguel: valida o carro e calcula o valor total
-  this.before('CREATE', Rentals, validateAndCalculateRental);
-
-  // 2. Depois de criar um aluguel: muda o status do carro para RENTED
-  this.after('CREATE', Rentals, markCarAsRented);
-
-  // --- FUNÇÕES DE REGRA DE NEGÓCIO ---
-
-  async function validateAndCalculateRental(req) {
+  this.before('CREATE', 'Rentals', async (req) => {
     const { car_ID, startDate, endDate } = req.data;
 
     if (!car_ID) {
@@ -25,7 +18,7 @@ module.exports = cds.service.impl(function () {
       return req.error(404, 'Carro não encontrado.');
     }
 
-    // Verifica se está disponível (em maiúsculo ao enum)
+    // Verifica se está disponível
     if (car.status !== 'AVAILABLE') {
       return req.error(400, `O carro ${car.model} não está disponível (Status: ${car.status}).`);
     }
@@ -41,11 +34,15 @@ module.exports = cds.service.impl(function () {
 
     // Grava o valor total calculado antes de salvar no banco
     req.data.totalPrice = diffDays * car.dailyRate;
-  }
+  });
 
-  async function markCarAsRented(data) {
-    await UPDATE(Cars)
-      .set({ status: 'RENTED' })
-      .where({ ID: data.car_ID });
-  }
+  // 2. Depois de criar um aluguel: muda o status do carro para RENTED
+  this.after('CREATE', 'Rentals', async (data, req) => {
+    const carId = req?.data?.car_ID || data?.car_ID;
+    if (carId) {
+      await UPDATE(Cars)
+        .set({ status: 'RENTED' })
+        .where({ ID: carId });
+    }
+  });
 });
