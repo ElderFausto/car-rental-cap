@@ -12,29 +12,29 @@ annotate RentalService.Cars with @(
   UI.LineItem  : [
     {
       Value: brand,
-      Label: 'Marca'
+      Label: '{i18n>Brand}'
     },
     {
       Value: model,
-      Label: 'Modelo'
+      Label: '{i18n>Model}'
     },
     {
       Value: plate,
-      Label: 'Placa'
+      Label: '{i18n>Plate}'
     },
     {
       Value: dailyRate,
-      Label: 'Diária (R$)'
+      Label: '{i18n>DailyRate}'
     },
     {
       Value: status,
-      Label: 'Status'
+      Label: '{i18n>Status}'
     }
   ],
   // Define o título da página de detalhes ao clicar em um carro (Object Page)
   Ui.HeaderInfo: {
-    TypeName      : 'Carro',
-    TypeNamePlural: 'Frota de Carros',
+    TypeName      : '{i18n>Car}',
+    TypeNamePlural: '{i18n>Cars}',
     Title         : {Value: model},
     Description   : {Value: brand}
   }
