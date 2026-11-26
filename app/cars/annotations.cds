@@ -1,42 +1,63 @@
 using RentalService as service from '../../srv/rental-service';
+
 annotate service.Cars with @(
-    UI.FieldGroup #GeneratedGroup : {
-        $Type : 'UI.FieldGroupType',
+    UI.HeaderInfo                : {
+        TypeName      : '{i18n>Car}',
+        TypeNamePlural: '{i18n>Cars}',
+        Title         : {Value: model},
+        Description   : {Value: brand}
+    },
+    UI.FieldGroup #GeneratedGroup: {
+        $Type: 'UI.FieldGroupType',
         Data : [
             {
-                $Type : 'UI.DataField',
-                Label : 'model',
-                Value : model,
+                Label: '{i18n>Brand}',
+                Value: brand
             },
             {
-                $Type : 'UI.DataField',
-                Label : 'brand',
-                Value : brand,
+                Label: '{i18n>Model}',
+                Value: model
             },
             {
-                $Type : 'UI.DataField',
-                Label : 'plate',
-                Value : plate,
+                Label: '{i18n>Plate}',
+                Value: plate
             },
             {
-                $Type : 'UI.DataField',
-                Label : 'dailyRate',
-                Value : dailyRate,
+                Label: '{i18n>DailyRate}',
+                Value: dailyRate
             },
             {
-                $Type : 'UI.DataField',
-                Label : 'status',
-                Value : status,
-            },
-        ],
+                Label: '{i18n>Status}',
+                Value: status
+            }
+        ]
     },
-    UI.Facets : [
+    UI.Facets                    : [{
+        $Type : 'UI.ReferenceFacet',
+        ID    : 'GeneratedFacet1',
+        Label : 'Informações do Carro',
+        Target: '@UI.FieldGroup#GeneratedGroup'
+    }],
+    UI.LineItem                  : [
         {
-            $Type : 'UI.ReferenceFacet',
-            ID : 'GeneratedFacet1',
-            Label : 'General Information',
-            Target : '@UI.FieldGroup#GeneratedGroup',
+            Label: '{i18n>Brand}',
+            Value: brand
         },
-    ],
+        {
+            Label: '{i18n>Model}',
+            Value: model
+        },
+        {
+            Label: '{i18n>Plate}',
+            Value: plate
+        },
+        {
+            Label: '{i18n>DailyRate}',
+            Value: dailyRate
+        },
+        {
+            Label: '{i18n>Status}',
+            Value: status
+        }
+    ]
 );
-

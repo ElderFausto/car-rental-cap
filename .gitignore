@@ -15,6 +15,9 @@ mta_archives/
 
 # Other
 .DS_Store
+.deploy/app-router/node_modules/
+.deploy/app-router/resources/
+.deploy/app-router/default-env.json
 
 # @cap-js/cds-typer
 @cds-models

@@ -2,7 +2,9 @@ using {car.rental as db} from '../db/schema';
 
 // 1. Definição do Serviço (Cria as rotas /odata/v4/rental/Cars e /odata/v4/rental/Rentals)
 service RentalService @(path: '/odata/v4/rental') {
+  @odata.draft.enabled
   entity Cars    as projection on db.Cars;
+
   entity Rentals as projection on db.Rentals;
 };
 
