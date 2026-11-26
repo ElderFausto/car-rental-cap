@@ -29,8 +29,6 @@ modules:
       - name: srv-api
         properties:
           srv-url: ${default-url}
-    requires:
-      - name: car-rental-cap-auth
 
   - name: car-rental-cap
     type: approuter.nodejs
@@ -45,29 +43,8 @@ modules:
         properties:
           name: srv-api
           url: ~{srv-url}
-          forwardAuthToken: true
-      - name: car-rental-cap-auth
     provides:
       - name: app-api
         properties:
           app-protocol: ${protocol}
           app-uri: ${default-uri}
-
-resources:
-  - name: car-rental-cap-auth
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: xsuaa
-      service-plan: application
-      path: ./xs-security.json
-      config:
-        xsappname: car-rental-cap-${org}-${space}
-        tenant-mode: dedicated
-        oauth2-configuration:
-          credential-types:
-            - "binding-secret"
-            - "x509"
-          redirect-uris:
-            - https://*~{app-api/app-uri}/**
-    requires:
-      - name: app-api

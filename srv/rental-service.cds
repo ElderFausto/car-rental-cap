@@ -6,6 +6,9 @@ service RentalService @(path: '/odata/v4/rental') {
   entity Cars    as projection on db.Cars;
 
   entity Rentals as projection on db.Rentals;
+
+  @readonly
+  entity Statuses as projection on db.Statuses;
 };
 
 // 2. Anotações Fiori Elements (Ensina o Fiori a desenhar a tela sem precisar programar HTML/JS)
@@ -41,3 +44,25 @@ annotate RentalService.Cars with @(
     Description   : {Value: brand}
   }
 );
+
+// Transforma o campo status em um Dropdown (Select / ComboBox) com valores fixos
+annotate RentalService.Cars with {
+  status @(
+    Common.ValueListWithFixedValues: true,
+    Common.ValueList: {
+      Label: '{i18n>Status}',
+      CollectionPath: 'Statuses',
+      Parameters: [
+        {
+          $Type: 'Common.ValueListParameterInOut',
+          LocalDataProperty: status,
+          ValueListProperty: 'code'
+        },
+        {
+          $Type: 'Common.ValueListParameterDisplayOnly',
+          ValueListProperty: 'name'
+        }
+      ]
+    }
+  );
+};
